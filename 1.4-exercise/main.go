@@ -9,31 +9,32 @@ import (
 )
 
 func main() {
-	counts := make(map[string]int)
 	files := os.Args[1:]
 	if len(files) == 0 {
-		countLines(os.Stdin, counts)
+		counts := make(map[string]int)
+		countLines(os.Stdin, counts, "stdin")
 	} else {
 		for _, arg := range files {
+			counts := make(map[string]int)
 			f, err := os.Open(arg)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "dup4: %v\n", err)
 				continue
 			}
-			countLines(f, counts)
+			countLines(f, counts, arg)
 			f.Close()
-		}
-	}
-	for line, n := range counts {
-		if n > 1 {
-			fmt.Printf("%d\t%s\n", n, line)
 		}
 	}
 }
 
-func countLines(f *os.File, counts map[string]int) {
+func countLines(f *os.File, counts map[string]int, fname string) {
 	input := bufio.NewScanner(f)
 	for input.Scan() {
 		counts[input.Text()]++
+	}
+	for line, n := range counts {
+		if n > 1 {
+			fmt.Printf("%v: %d %s\n", fname, n, line)
+		}
 	}
 }
