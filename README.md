@@ -1,2 +1,2 @@
-This is just a place I use to learn Go programming. I'm old and unskilled. Use
-nothing here as basis for your own learning. 
+Reading the book The Go Programming Language and trying to learn some git while
+I'm at it. This is just a playground. 
